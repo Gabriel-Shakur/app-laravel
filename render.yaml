@@ -1,7 +1,7 @@
 services:
   - type: web
     name: app-laravel
-    env: docker
+    runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
     envVars:
@@ -31,3 +31,4 @@ services:
         value: file
       - key: QUEUE_CONNECTION
         value: sync
+

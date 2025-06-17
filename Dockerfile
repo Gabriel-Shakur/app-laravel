@@ -1,6 +1,6 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
-# Instalar extensiones necesarias
+# Instalar extensiones necesarias y herramientas
 RUN apt-get update && apt-get install -y \
     libpq-dev zip unzip git curl \
     && docker-php-ext-install pdo pdo_pgsql
@@ -8,18 +8,15 @@ RUN apt-get update && apt-get install -y \
 # Copiar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Establecer directorio de trabajo
 WORKDIR /var/www/html
 
-# Copiar archivos del proyecto
 COPY . .
 
-# Instalar dependencias PHP
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Exponer el puerto FPM
-EXPOSE 9000
+# Exponer puerto HTTP que Laravel usa por defecto (por ejemplo 8000)
+EXPOSE 8000
 
-# Iniciar PHP-FPM
-CMD ["php-fpm"]
+# Iniciar el servidor Laravel (php artisan serve)
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 
