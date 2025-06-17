@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: app-laravel
+    env: php
+    plan: free
+    buildCommand: |
+      composer install
+      php artisan key:generate
+      php artisan migrate --force
+    startCommand: php artisan serve --host=0.0.0.0 --port=10000
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://app-laravel.onrender.com
+      - key: APP_KEY
+        value: base64:XiVf3sH6i/WrmcYiNmu0LM5kgBhc741XT+t/5GuOju8=
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d18dal2dbo4c739kktmg-a
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: base_tienda
+      - key: DB_USERNAME
+        value: base_tienda_user
+      - key: DB_PASSWORD
+        value: yfzxPpRtgYAt26jdEBsRlOUaqnEuTQMc
+      - key: CACHE_DRIVER
+        value: file
+      - key: SESSION_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
